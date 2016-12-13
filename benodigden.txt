@@ -1,0 +1,17 @@
+function getLocation() {
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(showPosition);
+                            }
+                        }
+
+                        function showPosition(position) {
+                            var position = {
+                                "lat": position.coords.latitude
+                                , "lon": position.coords.longitude
+                            };
+                            $.ajax({
+                                data: position
+                                , url: 'inc/locaties.php'
+                                , type: 'post'
+                            });
+                        }

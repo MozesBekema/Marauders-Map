@@ -1,0 +1,27 @@
+body {
+    margin: 0 auto;
+    background-image: url(img/wildtextures-old-paper-texture-3.jpg);
+    background-repeat: no-repeat;
+}
+
+#wrapper {
+    height: 600px;
+    width: 800px;
+    position: relative;
+    margin-left: 30%;
+}
+
+#marauder {
+    height: 600px;
+    width: 800px;
+    background-image: url(img/Marauders%20Map.png);
+    position: absolute;
+    z-index: 1;
+}
+
+#map{
+    height: 600px;
+    width: 800px;
+    position: absolute;
+    z-index: 0;
+}
