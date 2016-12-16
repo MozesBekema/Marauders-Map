@@ -15,3 +15,8 @@ function getLocation() {
                                 , type: 'post'
                             });
                         }
+                        
+                        
+$(function() { window.onload = getLocation; var geo = navigator.geolocation; function getLocation() { if (geo) { geo.getCurrentPosition(displayLocation); } else { alert("Oops, Geolocation API is not supported"); } } function displayLocation(position) { var lat = position.coords.latitude; var lang = position.coords.longitude; document.getElementById('txtlat').value = lat; document.getElementById('txtlang').value = lang; } });
+
+Read more: http://mrbool.com/how-to-track-users-registration-location-in-google-maps/33562#ixzz4SnfxbHau

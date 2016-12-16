@@ -1,3 +1,8 @@
+<?php
+include('inc/locaties.php');
+
+?>
+
 <!doctype html>
 <html>
 
@@ -6,7 +11,6 @@
     <link href="style.css" rel="stylesheet" type="text/css">
     <title></title>
     <script src="js/artyom.min.js"></script>
-    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 
@@ -16,8 +20,6 @@
         <input type="button" onclick="stopArtyom()" value="Stop listening"> <span id="output"></span>
         
         <form action="" method="POST">
-            <input type="hidden" id="txtlat" required value=""> 
-            <input type="hidden" id="txtlang" required value=""> 
             <label >Gebruikersnaam</label>
             <input type="text" id="txt_name" name="txt_name" placeholder="Een name"> 
             <br/>
@@ -34,6 +36,24 @@
                     if (i == 0) {
                         artyom.say("Welcome");
                         $("#marauder").fadeOut(2000);  
+
+                        function getLocation() {
+                            if (navigator.geolocation) {
+                                navigator.geolocation.getCurrentPosition(showPosition);
+                            }
+                        }
+
+                        function showPosition(position) {
+                            var position = {
+                                "lat": position.coords.latitude
+                                , "lng": position.coords.longitude
+                            };
+                            $.ajax({
+                                data: position
+                                , url: 'inc/locaties.php'
+                                , type: 'POST'
+                            });
+                        }
                     }
                 }
             }, {
@@ -347,15 +367,6 @@
                         lat: position.coords.latitude
                         , lng: position.coords.longitude
                     };
-                    function displayLocation(position) { 
-                        var lat = position.coords.latitude; 
-                        var lang = position.coords.longitude;
-                        
-                        document.getElementById('txtlat').value = lat; 
-                        document.getElementById('txtlang').value = lang; 
-                        
-                    }
-
 
                     
                     infoWindow.setPosition(pos);
@@ -375,6 +386,8 @@
             infoWindow.setPosition(pos);
             infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
         }
+
+
     </script>
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3pDE1ovHFW6gUc3y_eXactwaFhEntIwk&callback=initMap">
     </script>

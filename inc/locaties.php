@@ -1,18 +1,19 @@
 <?php 
-$con = new PDO('mysql:host=localhost;dbname=harrypotter', "root",""); 
-$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch(PDOException $e){
-        echo "error: " . $e->getMessage();
-    }
+var_dump($_POST);
+$dbhost = "localhost";
+$dbname = "harrypotter";
+$dbusername = "root";
+$dbpassword = "";
+$lat = $_POST['lat'];
+$lng = $_POST['lng'];
 
-$latitude = $_REQUEST['txtlat']; 
-$longitude = $_REQUEST['txtlang']; 
-$name = $_REQUEST['txt_name']; 
-
- 
-
-$con->prepare( "INSERT INTO `markers` (`lat`,`lng`,`name`) VALUES (''$latitude','$longitude','$name')"); 
+$link = new PDO("mysql:host=$dbhost;dbname=$dbname",$dbusername,$dbpassword);
 
 
 
+$statement = $link->prepare("INSERT INTO markers(lat, lng) VALUES(:lat, :lng)");
+$statement->execute(array(
+    "lat" => $lat,
+    "lng" => $lng
+));
 ?>
