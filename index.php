@@ -23,7 +23,7 @@ include('inc/locaties.php');
             <label >Gebruikersnaam</label>
             <input type="text" id="txt_name" name="txt_name" placeholder="Een name"> 
             <br/>
-            <input type="submit" name="submit" value="submit">
+            <input type="button" name="submit" value="submit"  onclick="postname_location()">
         </form>
         
     </div>
@@ -37,23 +37,6 @@ include('inc/locaties.php');
                         artyom.say("Welcome");
                         $("#marauder").fadeOut(2000);  
 
-                        function getLocation() {
-                            if (navigator.geolocation) {
-                                navigator.geolocation.getCurrentPosition(showPosition);
-                            }
-                        }
-
-                        function showPosition(position) {
-                            var position = {
-                                "lat": position.coords.latitude
-                                , "lng": position.coords.longitude
-                            };
-                            $.ajax({
-                                data: position
-                                , url: 'inc/locaties.php'
-                                , type: 'POST'
-                            });
-                        }
                     }
                 }
             }, {
@@ -99,6 +82,18 @@ include('inc/locaties.php');
         // prompted by your browser. If you see the error "The Geolocation service
         // failed.", it means you probably did not give permission for the browser to
         // locate you.
+        var lat;
+        var lng;
+        function postname_location(){
+            var name = document.getElementById('txt_name').value;
+                $.ajax({
+                        type: "POST",
+                        url:  "inc/locaties.php",
+                        data: 'x='+lat+'&y='+lng +'&name='+name,
+                        });
+        }
+
+
         function initMap() {
             var map = new google.maps.Map(document.getElementById('map'), {
                 center: {
@@ -367,16 +362,24 @@ include('inc/locaties.php');
                         lat: position.coords.latitude
                         , lng: position.coords.longitude
                     };
+                    console.log(pos);
 
-                    
                     infoWindow.setPosition(pos);
                     infoWindow.setContent('Location found.');
                     map.setCenter(pos);
+
+                     lat = position.coords.latitude;
+                     lng = position.coords.longitude;
+                console.log(lat);
+
+
+
                 }, function () {
                     handleLocationError(true, infoWindow, map.getCenter());
                 });
-            }
-            else {
+
+
+
                 // Browser doesn't support Geolocation
                 handleLocationError(false, infoWindow, map.getCenter());
             }
