@@ -1,9 +1,6 @@
 <?php 
 //var_dump($_POST);
-$dbhost = "localhost";
-$dbname = "harrypotter";
-$dbusername = "root";
-$dbpassword = "";
+include('php_myadmin.php');
 $lat = @$_POST['x'];
 $lng = @$_POST['y'];
 $name = @$_POST['name'];
@@ -18,4 +15,5 @@ $statement->execute(array(
     "lng" => $lng,
     "name" => $name
 ));
+
 ?>
