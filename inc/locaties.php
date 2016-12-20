@@ -7,7 +7,9 @@ $name = @$_POST['name'];
 
 $link = new PDO("mysql:host=$dbhost;dbname=$dbname",$dbusername,$dbpassword);
 
-if(isset($_POST['name'])){
+if(@$_POST['name'] == "") {
+
+}else{
 
 $statement = $link->prepare("INSERT INTO markers(lat, lng, name) VALUES(:lat, :lng, :name)");
 $statement->execute(array(
@@ -15,7 +17,7 @@ $statement->execute(array(
     "lng" => $lng,
     "name" => $name
 ));
-};
 
+}
 
 ?>
