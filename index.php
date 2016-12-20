@@ -9,6 +9,7 @@ include('inc/locaties.php');
         <meta http-equiv="content-type" content="text/html">
         <link href="css/style.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="mdl/material.min.css">
+        <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.brown-deep_orange.min.css" />
         <script src="mdl/material.min.js"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <title></title>
@@ -20,16 +21,27 @@ include('inc/locaties.php');
         <div>
             <input type="button" onclick="startArtyom()" value="Start voice commands">
             <input type="button" onclick="stopArtyom()" value="Stop listening"> <span id="output"></span>
+
             <form id="formulier" action="" method="POST">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input type="text" id="txt_name" name="txt_name" class="mdl-textfield__input" >
-                 <label class="mdl-textfield__label" for="sample3">Text...</label>
-                    </div>
+                    <input type="text" id="txt_name" name="txt_name" class="mdl-textfield__input" required >
+                    <label class="mdl-textfield__label" for="sample3">Text...</label>
+                </div>
                 <br/>
-                <input type="button" name="submit" value="submit" onclick="postname_location(), myclick()"> </form>
-            <button>Refresh Map</button>
+                <input type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="submit" value="submit" onclick="postname_location(), myclick()">
+            </form>
+
+            <button id="refresh">Refresh Map</button>
         </div>
         <script>
+            $(document).ready(function(){
+
+                startArtyom();
+
+            });
+
+
+
             artyom.addCommands([
                 {
                     description: "Artyom can talk too, lets say someting if we say hello"
@@ -38,6 +50,7 @@ include('inc/locaties.php');
                         if (i == 0) {
                             artyom.say("Welcome");
                             $("#marauder").fadeOut(2000);
+                            initMap();
                         }
                     }
             }, {
@@ -429,12 +442,25 @@ include('inc/locaties.php');
                 }
 
 
-            function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-                infoWindow.setPosition(pos);
-                infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
+                function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+                    infoWindow.setPosition(pos);
+                    infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
+                }
+
             }
-                $('button').on('click',initialize);
-            }
+
+
+
+             $('#refresh').click(function(){
+
+                initMap();
+
+             });
+
+
+
+
+
         </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3pDE1ovHFW6gUc3y_eXactwaFhEntIwk&callback=initMap">
         </script>
