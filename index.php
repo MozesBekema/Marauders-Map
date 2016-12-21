@@ -18,11 +18,18 @@ include('inc/locaties.php');
     </head>
 
     <body>
-        <div>
-            <input type="button" onclick="startArtyom()" value="Start voice commands">
-            <input type="button" onclick="stopArtyom()" value="Stop listening"> <span id="output"></span>
+            <div id="wrapper">
+                <div id="marauder"></div>
+                <div id="map"></div>
+            </div>
 
-            <form id="formulier" action="" method="POST">
+        <div id="formulier">
+<!--
+            <input type="button" onclick="startArtyom()" value="Start voice commands">
+            <input type="button" onclick="stopArtyom()" value="Stop listening">
+-->
+            <span id="output"></span>
+            <form action="" method="POST">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
                     <input type="text" id="txt_name" name="txt_name" class="mdl-textfield__input" required >
                     <label class="mdl-textfield__label" for="sample3">Text...</label>
@@ -33,14 +40,27 @@ include('inc/locaties.php');
 
             <button id="refresh">Refresh Map</button>
         </div>
+
         <script>
+            //artyom starten
+
             $(document).ready(function(){
 
                 startArtyom();
 
             });
 
+            function startArtyom() {
+                artyom.initialize({
+                    lang: "en-GB"
+                    , continuous: true
+                    , debug: true
+                    , listen: true
+                });
+            }
 
+
+            // artyom commands
 
             artyom.addCommands([
                 {
@@ -61,6 +81,9 @@ include('inc/locaties.php');
                     }
             }
         ]);
+
+            // artyom tekst output
+
             artyom.redirectRecognizedTextOutput(function (text, isFinal) {
                 var span = document.getElementById('output');
                 if (isFinal) {
@@ -71,28 +94,8 @@ include('inc/locaties.php');
                 }
             });
 
-            function startArtyom() {
-                artyom.initialize({
-                    lang: "en-GB"
-                    , continuous: true
-                    , debug: true
-                    , listen: true
-                });
-            }
+            // locatie POST
 
-            function stopArtyom() {
-                artyom.fatality();
-            }
-        </script>
-        <div id="wrapper">
-            <div id="marauder"></div>
-            <div id="map"></div>
-        </div>
-        <script>
-            // Note: This example requires that you consent to location sharing when
-            // prompted by your browser. If you see the error "The Geolocation service
-            // failed.", it means you probably did not give permission for the browser to
-            // locate you.
             var lat;
             var lng;
 
@@ -105,6 +108,8 @@ include('inc/locaties.php');
                 , });
             }
 
+            // formulier faden
+
             function myclick() {
                 $('#formulier').fadeOut(2000);
             }
@@ -116,6 +121,8 @@ include('inc/locaties.php');
                     label: 'B'
                 }
             };
+
+            // google maps
 
             function initMap() {
                 var map = new google.maps.Map(document.getElementById('map'), {
@@ -384,21 +391,27 @@ include('inc/locaties.php');
                         var name = markerElem.getAttribute('name');
                         var address = markerElem.getAttribute('address');
                         var type = markerElem.getAttribute('type');
+                        var date = markerElem.getAttribute('date');
                         var point = new google.maps.LatLng(parseFloat(markerElem.getAttribute('lat')), parseFloat(markerElem.getAttribute('lng')));
                         var infowincontent = document.createElement('div');
+
                         var strong = document.createElement('strong');
                         strong.textContent = name
                         infowincontent.appendChild(strong);
                         infowincontent.appendChild(document.createElement('br'));
+
                         var text = document.createElement('text');
-                        text.textContent = address
+                        text.textContent = date
                         infowincontent.appendChild(text);
+
                         var icon = customLabel[type] || {};
+
                         var marker = new google.maps.Marker({
                             map: map
                             , position: point
                             , label: icon.label
                         });
+
                         marker.addListener('click', function () {
                             infoWindow.setContent(infowincontent);
                             infoWindow.open(map, marker);
@@ -446,20 +459,13 @@ include('inc/locaties.php');
                     infoWindow.setPosition(pos);
                     infoWindow.setContent(browserHasGeolocation ? 'Error: The Geolocation service failed.' : 'Error: Your browser doesn\'t support geolocation.');
                 }
-
             }
-
-
-
+            // refresh google maps
              $('#refresh').click(function(){
 
                 initMap();
 
              });
-
-
-
-
 
         </script>
         <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyD3pDE1ovHFW6gUc3y_eXactwaFhEntIwk&callback=initMap">
