@@ -8,9 +8,6 @@ include('inc/locaties.php');
     <head>
         <meta http-equiv="content-type" content="text/html">
         <link href="css/style.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="mdl/material.min.css">
-        <link rel="stylesheet" href="https://code.getmdl.io/1.2.1/material.brown-deep_orange.min.css" />
-        <script src="mdl/material.min.js"></script>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
         <title></title>
         <script src="js/artyom.min.js"></script>
@@ -30,12 +27,11 @@ include('inc/locaties.php');
 -->
             <span id="output"></span>
             <form action="" method="POST">
-                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input type="text" id="txt_name" name="txt_name" class="mdl-textfield__input" required >
-                    <label class="mdl-textfield__label" for="sample3">Text...</label>
+                <div class="">
+                    <input type="text" id="txt_name" name="txt_name" required >
                 </div>
                 <br/>
-                <input type="button" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" name="submit" value="submit" onclick="postname_location(), myclick()">
+                <input type="button" name="submit" value="submit" onclick="postname_location(), myclick()">
             </form>
 
             <button id="refresh">Refresh Map</button>
